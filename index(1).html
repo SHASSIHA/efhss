@@ -1,0 +1,11 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VIN Search</title><style>body{font-family:Arial;background:#111;color:#fff;display:flex;justify-content:center;padding:40px}.box{background:#1d1d1d;padding:20px;border-radius:12px;max-width:520px;width:100%}input,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:0}input{background:#2b2b2b;color:#fff}button{background:#0a84ff;color:#fff;font-weight:bold;cursor:pointer}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.small{background:#333}</style></head><body><div class='box'><h2>VIN Search</h2><input id='vin' maxlength='17' placeholder='اكتب رقم الشاصي'><button onclick='openAll()'>🚗 فتح جميع المواقع</button><div class='grid' id='buttons'></div></div><script>
+const sites=[['BidCars','https://www.bidcars.com/search?search='],['BidFax','https://en.bidfax.info/?q='],['Stat.vin','https://stat.vin/cars/'],['Poctra','https://poctra.com/search?query='],['Copart','https://www.copart.com/lotSearchResults?free=true&query='],['IAAI','https://www.iaai.com/Search?SearchTerm='],['EpicVIN','https://epicvin.com/vin-decoder/'],['Google','https://www.google.com/search?q=']];
+const c=document.getElementById('buttons');
+sites.forEach(s=>{let b=document.createElement('button');b.className='small';b.textContent=s[0];b.onclick=()=>openSite(s[1]);c.appendChild(b);});
+document.getElementById('vin').value=localStorage.vin||'';
+document.getElementById('vin').oninput=e=>localStorage.vin=e.target.value;
+document.getElementById('vin').onkeydown=e=>{if(e.key==='Enter')openAll();}
+function vin(){let v=document.getElementById('vin').value.trim();if(v.length!=17){alert('رقم الشاصي يجب أن يكون 17 خانة');return null;}localStorage.vin=v;return v;}
+function openSite(u){let v=vin();if(v)window.open(u+encodeURIComponent(v),'_blank');}
+function openAll(){let v=vin();if(!v)return;sites.forEach((s,i)=>setTimeout(()=>window.open(s[1]+encodeURIComponent(v),'_blank'),i*150));}
+</script></body></html>
